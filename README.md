@@ -1,4 +1,5 @@
 # Square-Payment-System-with-Agentic-RAG
+
 ## Overview
 
 This project implements a payment system integrated with the Square API for a small business, tailored for processing payments, retrieving payment details, and issuing refunds. It uses **Agentic Retrieval-Augmented Generation (RAG)** to dynamically retrieve relevant Square API details and generate full-stack code (frontend + backend) based on user queries.
@@ -134,28 +135,27 @@ Single-agent system using LangChain ReAct:
 
 ## Usage
 
-###  Run the Notebook
+### Run the Notebook
 
 - Execute the Jupyter notebook to process the predefined queries.
 - You can also modify the `queries` list to include your own custom queries.
 
-**Example Queries:**
+Example queries:
 - "How do I create a payment using Square?"
 - "How can I retrieve details of a specific payment?"
 - "How do I create a refund for a payment?"
 
 ---
 
-###  View Generated Code
+### View Generated Code
 
-- The system will **print the frontend and backend code** for each query.
-- HTML files will be saved (e.g.,  
-  `full_stack_code_how_do_i_create_a_payment_using_square.html`).
+- The system will print the frontend and backend code for each query.
+- HTML files will be saved (e.g., `full_stack_code_how_do_i_create_a_payment_using_square.html`)
 - A zip file `square_payment_system.zip` will be created containing all outputs.
 
 ---
 
-###  Integrate the Code
+### Integrate the Code
 
 - Use the generated **frontend JavaScript** code in your client-side app.
 - Use the generated **backend Node.js/Express** code in your server-side app.
@@ -165,33 +165,33 @@ Single-agent system using LangChain ReAct:
 
 ---
 
-##  Example Outputs
+## Example Outputs
 
-For the query **"How can I retrive details of a specific payemnt?"**, the system generates:
+For the query **"How can I retrieve details of a specific payment?"**, the system generates:
 
----
-
-###  Frontend (JavaScript)
+### Frontend (JavaScript)
 
 ```javascript
 // Frontend code (JavaScript)
 const data = {
-payment_id: "J4cpcYKgzOfvQ7VO1ilH3CIpk7KZY",
+  payment_id: "J4cpcYKgzOfvQ7VO1ilH3CIpk7KZY",
 };
+
 fetch('http://localhost:3001/payments?payment_id={data.payment_id}', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json'
+  },
 })
 .then(response => response.json())
 .then(data => console.log(data))
 .catch(error => console.error('Error:', error));
+```
 
-###  Backend (Node.js/Express)
+### Backend (Node.js/Express)
 
 ```javascript
+// Frontend code (JavaScript)
 // Backend code (Node.js/Express)
 const express = require('express');
 const { Client, Environment } = require('square');
@@ -206,7 +206,7 @@ router.get('/payments', async (req, res) => {
   try {
     const { paymentId } = req.query;
     if (!paymentId) throw new Error('Missing required parameters');
-    
+
     const response = await client.paymentsApi.getPayment(paymentId);
 
     res.json(response.result);
@@ -216,3 +216,5 @@ router.get('/payments', async (req, res) => {
 });
 
 module.exports = router;
+```
+
