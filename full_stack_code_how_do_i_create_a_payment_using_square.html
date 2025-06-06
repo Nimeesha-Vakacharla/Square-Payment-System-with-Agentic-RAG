@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment System - How do I create a payment using Square?</title>
+</head>
+<body>
+  <h1>Full-Stack Code for How do I create a payment using Square?</h1>
+  <h2>Frontend (JavaScript)</h2>
+  <pre>
+// Frontend code (JavaScript)
+const data = {
+source_id: cnon:card-nonce-ok,
+      amount_money: { amount: 100, currency: "USD" },
+      accept_partial_authorization: true,
+};
+fetch('http://localhost:3001/payments', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+</pre>
+  <h2>Backend (Node.js/Express)</h2>
+  <pre>
+const express = require('express');
+const { Client, Environment } = require('square');
+const router = express.Router();
+
+const client = new Client({
+  environment: Environment.Sandbox,
+  accessToken: 'YOUR_ACCESS_TOKEN'
+});
+
+router.post('/payments', async (req, res) => {
+  try {
+    const { source_id, accept_partial_authorization, amountMoney } = req.body;
+    if (!source_id, accept_partial_authorization, amountMoney) throw new Error('Missing required parameters');
+    
+    const response = await client.paymentsApi.createPayment({
+      source_id, accept_partial_authorization,
+      amountMoney,
+      idempotencyKey: 'UUID_PLACEHOLDER'
+    });
+
+    res.json(response.result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+module.exports = router;
+</pre>
+</body>
+</html>

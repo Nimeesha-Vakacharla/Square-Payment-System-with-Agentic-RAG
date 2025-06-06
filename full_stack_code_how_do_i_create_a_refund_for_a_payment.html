@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment System - How do I create a refund for a payment?</title>
+</head>
+<body>
+  <h1>Full-Stack Code for How do I create a refund for a payment?</h1>
+  <h2>Frontend (JavaScript)</h2>
+  <pre>
+// Frontend code (JavaScript)
+const data = {
+payment_id: J4cpcYKgzOfvQ7VO1ilH3CIpk7KZY,
+      amount_money: { amount: 100, currency: "USD" },
+};
+fetch('http://localhost:3001/refunds', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+</pre>
+  <h2>Backend (Node.js/Express)</h2>
+  <pre>
+const express = require('express');
+const { Client, Environment } = require('square');
+const router = express.Router();
+
+const client = new Client({
+  environment: Environment.Sandbox,
+  accessToken: 'YOUR_ACCESS_TOKEN'
+});
+
+router.post('/refunds', async (req, res) => {
+  try {
+    const { payment_id, amountMoney } = req.body;
+    if (!payment_id, amountMoney) throw new Error('Missing required parameters');
+    
+    const response = await client.refundsApi.createRefund({
+      payment_id,
+      amountMoney,
+      idempotencyKey: 'UUID_PLACEHOLDER'
+    });
+
+    res.json(response.result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+module.exports = router;
+</pre>
+</body>
+</html>

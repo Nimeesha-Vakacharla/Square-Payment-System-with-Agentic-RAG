@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment System - How can I retrieve details of a specific payment?</title>
+</head>
+<body>
+  <h1>Full-Stack Code for How can I retrieve details of a specific payment?</h1>
+  <h2>Frontend (JavaScript)</h2>
+  <pre>
+// Frontend code (JavaScript)
+const data = {
+payment_id: "J4cpcYKgzOfvQ7VO1ilH3CIpk7KZY",
+};
+fetch('http://localhost:3001/payments?payment_id={data.payment_id}', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+</pre>
+  <h2>Backend (Node.js/Express)</h2>
+  <pre>
+const express = require('express');
+const { Client, Environment } = require('square');
+const router = express.Router();
+
+const client = new Client({
+  environment: Environment.Sandbox,
+  accessToken: 'YOUR_ACCESS_TOKEN'
+});
+
+router.get('/payments', async (req, res) => {
+  try {
+    const { paymentId } = req.query;
+    if (!paymentId) throw new Error('Missing required parameters');
+    
+    const response = await client.paymentsApi.getPayment(paymentId);
+
+    res.json(response.result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+module.exports = router;
+</pre>
+</body>
+</html>
