@@ -191,7 +191,7 @@ fetch('http://localhost:3001/payments?payment_id={data.payment_id}', {
 ### Backend (Node.js/Express)
 
 ```javascript
-// Frontend code (JavaScript)
+
 // Backend code (Node.js/Express)
 const express = require('express');
 const { Client, Environment } = require('square');
@@ -206,7 +206,7 @@ router.get('/payments', async (req, res) => {
   try {
     const { paymentId } = req.query;
     if (!paymentId) throw new Error('Missing required parameters');
-
+    
     const response = await client.paymentsApi.getPayment(paymentId);
 
     res.json(response.result);
@@ -217,4 +217,12 @@ router.get('/payments', async (req, res) => {
 
 module.exports = router;
 ```
+---
 
+### Limitations and Future Improvements
+
+- API Quota Limits: The system encountered ResourceExhausted errors due to Gemini API rate limits. Future versions could integrate multiple LLMs or cache responses to reduce dependency on external APIs.
+- Mock Fallbacks: The mock implementation provides basic functionality but lacks the full context of the VectorDB. Enhancing the mock data with more detailed examples could improve fallback reliability.
+- User Interface: The current system generates code as HTML files. A future version could include a web interface for users to input queries and view results interactively.
+- Extended API Support: The dataset currently covers a subset of Square APIs. Expanding the dataset to include more endpoints (e.g., Orders, Invoices) would make the system more comprehensive.
+- Authentication: The generated code uses placeholder access tokens. Integrating Square's OAuth flow could enhance security and usability.
